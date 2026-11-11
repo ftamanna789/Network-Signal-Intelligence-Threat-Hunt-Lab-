@@ -47,9 +47,29 @@ The source capture, device names and raw screenshots have intentionally **not** 
 
 **Assessment:** No confirmed IOC in the reviewed traffic. **Confidence is limited** because inspection was confined to select packets and a small set of filters.
 
+
+## Redacted screenshot evidence
+
+The following screenshots document the investigation workflow. Personal device names, local network identifiers and sensitive raw bytes were redacted before publication.
+
+### 1. Live DNS traffic
+![Redacted live DNS traffic](../evidence/live-dns/01-live-dns-traffic.png)
+
+### 2. HTTPS DNS response
+![Redacted HTTPS DNS response](../evidence/live-dns/02-https-dns-response.png)
+
+### 3. A record DNS response
+![Redacted DNS A-record response](../evidence/live-dns/03-a-record-response.png)
+
+### 4. NXDOMAIN filter check
+![Redacted NXDOMAIN filter check](../evidence/live-dns/04-nxdomain-check.png)
+
+### 5. mDNS TXT record check
+![Redacted mDNS TXT check](../evidence/live-dns/05-mdns-txt-check.png)
+
 ## Evidence handling
 
-The original live screenshot set was examined during the guided lab. It contains identifiable local device names and details of application usage. **Neither these screenshots nor the raw PCAP are uploaded publicly**. Redacted extracts can be added later only after verification that names, MAC addresses, internal identifiers and sensitive traffic have been removed.
+The original live screenshot set was examined during the guided lab and is not published. **Only the five privacy-redacted evidence screenshots linked above are published.** The raw PCAP and unredacted screenshots remain private. Redaction lowers disclosure risk but cannot guarantee that all contextual metadata is non-identifying.
 
 ## Limitations
 
