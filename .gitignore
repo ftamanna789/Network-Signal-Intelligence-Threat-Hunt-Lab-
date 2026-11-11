@@ -1,0 +1,8 @@
+# Local captures and sensitive investigation artefacts
+*.pcap
+*.pcapng
+*.cap
+*.key
+*.pem
+.env
+.DS_Store
