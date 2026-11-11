@@ -49,7 +49,33 @@ Inspected the `dns.cap` training capture in Wireshark, applied the `dns` display
 | E05 | Packet 2 expanded TXT answer | `google.com`, TXT, TTL 270, `v=spf1 ptr ?all` |
 | E06 | Packet 4 expanded DNS details | MX-related DNS answer and address record for `smtp6.google.com` |
 
-**Screenshot upload status:** Image files are **not yet embedded in this GitHub document**. Do not treat this evidence inventory as published screenshot links. Original session screenshots are available separately for later upload.
+## Evidence screenshots
+
+All six screenshots below were uploaded to the `evidence/` directory. They document the guided workflow, rather than a comprehensive analysis of every packet.
+
+### E01 — Display filter at Wireshark welcome screen
+
+![E01: 01-wireshark-filter-welcome.png](../evidence/01-wireshark-filter-welcome.png)
+
+### E02 — Loaded DNS capture and packet list
+
+![E02: 02-dns-packet-list.png](../evidence/02-dns-packet-list.png)
+
+### E03 — DNS response summary
+
+![E03: 03-txt-response-summary.png](../evidence/03-txt-response-summary.png)
+
+### E04 — Navigating to DNS TXT answers
+
+![E04: 04-txt-answer-navigation.png](../evidence/04-txt-answer-navigation.png)
+
+### E05 — Expanded TXT answer and SPF string
+
+![E05: 05-txt-record-expanded.png](../evidence/05-txt-record-expanded.png)
+
+### E06 — MX response and associated address records
+
+![E06: 06-mx-response-address-records.png](../evidence/06-mx-response-address-records.png)
 
 ## Hypothesis and interpretation
 
