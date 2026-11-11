@@ -2,7 +2,7 @@
 
 **Network Traffic Analysis · Threat Hunting · DNS/HTTP Investigation · SOC Portfolio**
 
-> **Status:** In development. This repository documents a planned, hands-on network threat-hunting lab. Findings will be added only after PCAPs have been analysed.
+> **Status:** Active portfolio project. Two scoped DNS investigations have been completed and documented; expanded DNS/HTTP threat hunting remains on the roadmap.
 
 ## Overview
 
@@ -48,14 +48,15 @@ This defensive cybersecurity project investigates network packet captures (PCAPs
 
 > Filters are starting points, not threat detections. For HTTPS traffic, HTTP request content generally cannot be inspected without authorised decryption or suitable endpoint logs.
 
-## Repository Structure (Planned)
+## Repository Structure
 
 ```text
 .
 ├── README.md
 ├── docs/
 │   ├── methodology.md
-│   └── investigation-report.md
+│   ├── investigation-report.md
+│   └── live-network-dns-investigation.md
 ├── evidence/
 │   └── README.md
 └── data/
@@ -66,17 +67,21 @@ Raw packet captures and extracted sensitive data will not be published without c
 
 ## Findings
 
-**Case Study 01:** [DNS TXT and MX investigation report](docs/investigation-report.md) documents the first reviewed `dns.cap` packets, verified observations, analysis steps and a screenshot evidence index. Image files are not yet embedded in this repository. No malicious activity was confirmed in the inspected packets.
+**Case Study 01 — Training Capture:** [DNS TXT and MX Investigation](docs/investigation-report.md) covers the `dns.cap` capture, request/response analysis, SPF and MX records, with six embedded evidence screenshots in `evidence/`.
+
+**Case Study 02 — Live Traffic:** [Live Network DNS Traffic Investigation](docs/live-network-dns-investigation.md) covers authorised Wi-Fi capture, response timings, NXDOMAIN and TXT query checks, and carefully scoped conclusions. The original live capture and identifiable screenshots are kept private.
 
 ## Roadmap
 
 - [x] Create GitHub repository
 - [x] Publish initial README
-- [ ] Set up Wireshark on macOS (Apple Silicon)
-- [ ] Select and document a legal training PCAP
+- [x] Set up Wireshark on macOS (Apple Silicon)
+- [x] Select and document a legal training PCAP
 - [x] Complete initial DNS TXT/MX analysis
 - [ ] Complete wider DNS threat hunt and HTTP traffic investigation
-- [ ] Publish a SOC-style case report with evidence
+- [x] Publish training PCAP case report with screenshots
+- [x] Publish privacy-safe live network DNS case report
+- [ ] Complete broader traffic hunting and HTTP analysis
 - [ ] Summarise verified findings for the portfolio
 
 ## Ethical Use
