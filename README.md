@@ -66,7 +66,7 @@ Raw packet captures and extracted sensitive data will not be published without c
 
 ## Findings
 
-**Not yet available.** A training PCAP has not been selected or analysed. Future updates will include evidence-backed observations with packet numbers, timestamps, screenshots, and analysis limitations.
+**Case Study 01:** [DNS TXT and MX investigation report](docs/investigation-report.md) documents the first reviewed `dns.cap` packets, verified observations, analysis steps and a screenshot evidence index. Image files are not yet embedded in this repository. No malicious activity was confirmed in the inspected packets.
 
 ## Roadmap
 
@@ -74,7 +74,8 @@ Raw packet captures and extracted sensitive data will not be published without c
 - [x] Publish initial README
 - [ ] Set up Wireshark on macOS (Apple Silicon)
 - [ ] Select and document a legal training PCAP
-- [ ] Complete DNS/HTTP traffic investigation
+- [x] Complete initial DNS TXT/MX analysis
+- [ ] Complete wider DNS threat hunt and HTTP traffic investigation
 - [ ] Publish a SOC-style case report with evidence
 - [ ] Summarise verified findings for the portfolio
 
