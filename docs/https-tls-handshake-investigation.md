@@ -1,44 +1,65 @@
-# HTTPS/TLS Handshake Investigation — Training Capture
+# HTTPS/TLS Investigation — Complete Offline Training-Capture Analysis
 
-## Scope
-**Dataset:** Wireshark SampleCaptures `dump.pcapng` (a TLS 1.2 OpenSSL test capture). This report documents the **handshake and traffic patterns visible in screenshots shared during the exercise**. The `dump.pcapng` bytes were not uploaded into this workspace, so cipher-suite identifiers, certificate contents, whole-capture stream breakdown, and key-log decryption have **not** been independently validated. <https://wiki.wireshark.org/SampleCaptures>
+## Dataset and provenance
+- Source: Wireshark SampleCaptures, public historical TLS test capture, `dump.pcapng`, supplied in this chat.
+- **SHA-256:** `cfda7dab293023a3136b2eb3fd8ef375c8e2e060c2eb55c6501e4607cceb494c`
+- **Captured packets:** 1,095. **Wireshark TLS display-filter matches:** 511 (46.7%), as independently shown by the provided screenshot.
+- The uploaded capture was parsed offline to verify IPv4/TCP conversations, TLS record and handshake headers, cipher identifiers, and embedded X.509 certificates. No production network or real user was monitored.
 
-## Evidence observed in Wireshark screenshots
+## Packet and conversation analysis
 
-| Observation | Evidence |
-|---|---|
-| Total captured packets | 1,095 |
-| Packets displayed with `tls` filter | 511 (46.7%) |
-| Source/destination (visible example) | `127.0.0.1` → `127.0.0.1` (loopback) |
-| TLS example session | TCP source port `38964`, destination port `4430` |
-| TLS Client Hello | Frame 4, handshake version **TLS 1.2 (0x0303)** |
-| Offered cipher suites | **2**; identifiers not expanded in provided screenshot |
-| Compression methods | **2** entries, not individually inspected |
-| Extension examples | `ec_point_formats`, `supported_groups`, `session_ticket`, `signature_algorithms` |
-| Response | Frame 6 shows Server Hello, Certificate and Server Key Exchange |
-| Client key establishment | Frame 8 shows Client Key Exchange and Change Cipher Spec |
-| Server follow-up | Frame 9 shows New Session Ticket and Change Cipher Spec |
-| Post-handshake traffic | Frames 10–11: Application Data; frame 14: Encrypted Alert |
-| Further handshakes | Frames 19, 21, 23, 24 and later show repeated TLS sessions |
+| Indicator | Verified result |
+| --- | --- |
+| TCP conversations | **73** distinct 4-tuples (each exactly **15 packets**) |
+| Network endpoints | Every IPv4 packet has source and destination **127.0.0.1** (loopback) |
+| Server-side ports in test | 4430, 4431, 4432, 4433 |
+| Server Hello records | **73**, all reporting TLS **1.2 (0x0303)** |
+| Server-selected cipher identifiers | **73 different suites**, apparently a systematic cipher-compatibility test |
+| Certificate handshake messages | **73** |
+| TLS encrypted application-data records | Present in the capture |
+| Demonstrated external communication | **None**; traffic is localhost only |
 
-**Important parsing detail:** The record-layer field `Version: TLS 1.0 (0x0301)` appears in the Client Hello record, but the **Client Hello handshake version** is `TLS 1.2 (0x0303)`. The former is a compatibility record-layer value; it is not proof that the negotiated session is TLS 1.0. The selected Server Hello value should be inspected to establish negotiated version and cipher.
+### Detailed handshake: Frames 4–14
+1. **Frame 4 — Client Hello:** TLS handshake-version **1.2 (0x0303)**, two cipher IDs offered: **0xC030** and **0x00FF**. The second ID is the TLS_EMPTY_RENEGOTIATION_INFO_SCSV signalling value, **not** a deployable encryption cipher. Extensions include supported groups, EC point formats, session ticket, and signature algorithms. Its outer record-version field is **0x0301**, used for compatibility; this does **not** mean the handshake selected TLS 1.0.
+2. **Frame 6 — Server Hello:** negotiated TLS **1.2** and selected **0xC030 = TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384**. The Server Hello reports compression method **1 (DEFLATE)**; TLS-level compression is a historical configuration and should be disabled in modern deployments. The same frame carries Certificate, Server Key Exchange, and Server Hello Done messages.
+3. **Frame 8 — Client Key Exchange and Change Cipher Spec:** the client proceeds into protected traffic.
+4. **Frame 9 — New Session Ticket and Change Cipher Spec:** server continues the handshake.
+5. **Frames 10–11 — Application Data:** encrypted application records are visible, but their plaintext contents have **not** been decrypted or interpreted.
+6. **Frame 14 — Encrypted Alert:** encrypted alert record, whose specific reason cannot be read from the screenshot or undeciphered payload.
 
-## Analysis and security interpretation
-1. The sequence Client Hello → Server Hello/Certificate/Key Exchange → Client Key Exchange/Change Cipher Spec → Application Data is consistent with a TLS handshake and subsequent encrypted traffic.
-2. Both endpoints in the observed packets are `127.0.0.1`, indicating a **loopback test** rather than traffic sent to a public website. Port `4430` is a non-default destination port for this sample, not evidence of malicious activity by itself.
-3. Application Data is labelled but its HTTP payload cannot be read from these screenshots alone. The sample's separately provided `premaster.txt` key log can support authorised decryption if configured, but decryption has **not** been performed here.
-4. Certificate details (issuer, validity, subject, verification), server-selected cipher suite, cryptographic strength, and any potential vulnerabilities remain **unverified**. A visible Certificate handshake message does not prove certificate trust.
-5. There is **no demonstrated compromise or malicious indicator** in the inspected screenshots. Equally, a small visibility-limited inspection is not proof of safety.
+### Certificate inspection (parsed directly from the uploaded PCAP)
+The dataset contains four deliberately constructed test-certificate families:
 
-## Outcome
-**Scoped TLS handshake inspection: documented.** The available screenshots establish basic protocol flow, TLS 1.2 in the Client Hello, loopback source/destination, a TLS-filter packet count, and encrypted application-data records. This is **not** a completed certificate audit, cipher-strength assessment, decryption exercise, or full threat hunt.
+| Subject | Number of certificate handshakes | Expiry (UTC) | Signature scheme |
+| --- | ---: | --- | --- |
+| CN=Test Certificate RSA | 37 | 13 Sep 2023, 21:51:10 | RSA with SHA-1 |
+| CN=Test Certificate ECDSA | 16 | 13 Sep 2023, 21:51:10 | ECDSA with SHA-1 |
+| CN=Test Certificate DSS | 12 | 13 Sep 2023, 21:51:10 | DSA with SHA-1 |
+| CN=Test Certificate ECDH | 8 | 13 Sep 2023, 21:51:10 | RSA with SHA-1 |
 
-## Evidence inventory and remaining work
-- Wireshark screenshot: `tls` filter showing 511 / 1,095 packets, frames 4/6/8/9/10/11.
-- Wireshark screenshot: expanded frame-4 TLS Client Hello showing TLS 1.2, two offered suites, extensions.
-- The two screenshots were supplied in the chat but have **not** been committed to this repository; no image links are embedded to avoid broken links.
-- Optional deeper verification: upload the public `dump.pcapng` file for direct packet analysis; inspect frame 6 for the selected cipher and certificate properties; inspect complete sessions and optionally apply an authorised TLS key log.
+**Security significance:** These are expired historical **test certificates**, with legacy SHA-1 signature algorithms. The first certificate is self-issued (subject and issuer both CN=Test Certificate RSA); this does not establish modern public trust. No claim is made that a real internet website is using these certificates.
+
+### Cipher security assessment
+The dataset selects one different cipher in each of 73 test conversations. The first is the AEAD suite `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384` (0xC030); others include outdated candidates such as `TLS_RSA_WITH_RC4_128_SHA` (0x0005), `TLS_RSA_WITH_3DES_EDE_CBC_SHA` (0x000A), and export-grade identifiers. **These are compatibility-test results, not a recommended TLS configuration.** The presence of legacy suites in a controlled sample demonstrates why modern services should restrict cipher policies.
+
+## SOC threat-hunting assessment
+**Hypothesis:** repeated connections to nonstandard ports or unusual TLS suites might indicate suspicious command-and-control traffic.
+
+**Evidence against that interpretation:** all 73 conversations are on the loopback interface, each follows the same 15-packet test shape, and each negotiates a distinct suite. This is strongly consistent with a scripted cryptographic test harness rather than independent periodic outbound contacts. The sample does not substantiate internet beaconing, data exfiltration or external command-and-control.
+
+**Findings:** historical test certificates and legacy cipher capabilities are present. They are **training examples**, not verified active vulnerabilities of the user's network. No malicious compromise is established from this capture.
+
+## Evidence
+- Chat screenshot: `tls` filter displaying 511/1,095 matches and Client Hello/Server Hello/Application Data.
+- Chat screenshot: expanded frame-4 TLS Client Hello (version, cipher list count, extensions).
+- Both images exist in the conversation, but **have not been committed to GitHub**. This report deliberately avoids broken image links.
+- Offline packet parsing used the supplied `dump.pcapng` and its SHA-256 above; no secrets or private live PCAP were uploaded to GitHub.
 
 ## Recommendations
-- For modern deployments use current TLS versions (TLS 1.2 with strong suites or TLS 1.3), trustworthy server certificates, and endpoint logs for visibility into encrypted application behaviour.
-- Treat loopback test captures as protocol examples, not evidence of threats on the user's network.
+1. For real systems, enforce TLS 1.2 with vetted AEAD suites or TLS 1.3; disable RC4, 3DES, export ciphers, legacy SHA-1 certificate signatures and TLS-level compression.
+2. Use trusted, unexpired certificates and validate certificate chains and hostnames.
+3. Monitor actual external endpoint telemetry before concluding that beaconing or exfiltration exists; localhost test data cannot establish that.
+4. Reproduce test analyses using the public training PCAP, keeping private traffic and credentials out of the repository.
+
+## Scope and conclusion
+**TLS training-capture investigation and scoped threat-hunting assessment completed.** Full payload decryption, cryptographic implementation testing, and assessment of a production network are outside this lab's scope.
