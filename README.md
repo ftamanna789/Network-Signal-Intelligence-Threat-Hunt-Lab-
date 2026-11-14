@@ -2,7 +2,7 @@
 
 **Network Traffic Analysis · Threat Hunting · DNS/HTTP Investigation · SOC Portfolio**
 
-> **Status:** Active portfolio project. Two scoped DNS investigations have been completed and documented; expanded DNS/HTTP threat hunting remains on the roadmap.
+> **Status:** Active portfolio project. Two scoped DNS investigations and one historical HTTP training-capture investigation are documented; HTTPS/TLS and advanced threat hunting remain on the roadmap.
 
 ## Overview
 
@@ -56,9 +56,12 @@ This defensive cybersecurity project investigates network packet captures (PCAPs
 ├── docs/
 │   ├── methodology.md
 │   ├── investigation-report.md
-│   └── live-network-dns-investigation.md
+│   ├── live-network-dns-investigation.md
+│   └── http-traffic-investigation.md
 ├── evidence/
-│   └── README.md
+│   ├── README.md
+│   ├── live-dns/
+│   └── http-https-analysis/
 └── data/
     └── README.md
 ```
@@ -71,6 +74,8 @@ Raw packet captures and extracted sensitive data will not be published without c
 
 **Case Study 02 — Live Traffic:** [Live Network DNS Traffic Investigation](docs/live-network-dns-investigation.md) covers authorised Wi-Fi capture, response timings, NXDOMAIN and TXT query checks, and carefully scoped conclusions. The original live capture and identifiable screenshots are kept private.
 
+**Case Study 03 — HTTP Training Capture:** [HTTP Traffic Investigation](docs/http-traffic-investigation.md) documents 43 captured packets, two GET requests, response correlation including TCP reassembly, and security observations. Screenshot evidence is pending addition to `evidence/http-https-analysis/`.
+
 ## Roadmap
 
 - [x] Create GitHub repository
@@ -78,10 +83,10 @@ Raw packet captures and extracted sensitive data will not be published without c
 - [x] Set up Wireshark on macOS (Apple Silicon)
 - [x] Select and document a legal training PCAP
 - [x] Complete initial DNS TXT/MX analysis
-- [ ] Complete wider DNS threat hunt and HTTP traffic investigation
+- [x] Complete initial HTTP request/response analysis and publish case report
 - [x] Publish training PCAP case report with screenshots
 - [x] Publish privacy-safe live network DNS case report
-- [ ] Complete broader traffic hunting and HTTP analysis
+- [ ] Add redacted HTTP screenshots, investigate HTTPS/TLS, and complete broader traffic hunting
 - [ ] Summarise verified findings for the portfolio
 
 ## Ethical Use
