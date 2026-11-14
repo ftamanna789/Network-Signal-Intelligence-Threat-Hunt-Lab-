@@ -95,7 +95,7 @@ Raw packet captures and extracted sensitive data will not be published without c
 - [x] Embed four HTTP evidence screenshots in the HTTP case report
 - [x] Verify TLS negotiated cipher suites and test certificates from the supplied PCAP
 - [x] Complete scoped traffic-pattern threat-hunting assessment and final SOC summary
-- [ ] Optional: upload two TLS screenshots and embed them in the TLS report
+- [x] Upload and embed two TLS screenshots in the TLS report
 - [ ] Optional: extend to a labelled malicious training capture for attack detection practice
 - [ ] Summarise verified findings for the portfolio
 
