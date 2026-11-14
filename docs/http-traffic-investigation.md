@@ -35,9 +35,22 @@
 - **Recommendations:** Prefer HTTPS/TLS for production web traffic; monitor destinations, repetitive request patterns, unexpected HTTP status codes, and sensitive information in unencrypted requests.
 
 ## Evidence
-- Screenshots from Wireshark reviewed during the exercise: filtered HTTP list, frame 4 GET details, frame 38 response details, frame 18 GET details.
-- These screenshots are **not yet committed** to this evidence folder. Do not upload sensitive live captures or raw PCAPs to the repository.
-- For reproducibility, load the official training `http.cap` in Wireshark and apply the display filter `http`; inspect frames **4, 18, 27, and 38**. Expand reassembled HTTP in frames 27 and 38 to see response headers that start in earlier TCP segments.
+
+The following four screenshots are committed to `evidence/http-https-analysis/`:
+
+### 1. HTTP display filter — 4 of 43 packets
+![Wireshark HTTP display filter showing four HTTP packets](../evidence/http-https-analysis/01-http-filtered-packets.png)
+
+### 2. Webpage GET request — frame 4
+![HTTP GET download.html request and headers](../evidence/http-https-analysis/02-http-get-request.png)
+
+### 3. Successful webpage HTTP response — frame 38
+![Reassembled HTTP 200 OK response and headers](../evidence/http-https-analysis/03-http-200-response.png)
+
+### 4. Advertising-related HTTP GET request — frame 18
+![HTTP GET request for pagead ads and headers](../evidence/http-https-analysis/04-advertising-http-request.png)
+
+**Evidence scope:** These images document filtering and two request investigations with one expanded response. The other response was verified by analysing the training capture, but a dedicated frame-27 screenshot has not been committed. No live traffic capture or credentials are published here.
 
 ## Next steps
 Analyze an authorized HTTPS/TLS training capture (TLS handshake, SNI when present, versions, certificates where visible, and limitations of encrypted payload inspection), then assess connection periodicity and document results separately.
