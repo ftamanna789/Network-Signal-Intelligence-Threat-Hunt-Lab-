@@ -53,6 +53,7 @@ The dataset selects one different cipher in each of 73 test conversations. The f
 - Chat screenshot: `tls` filter displaying 511/1,095 matches and Client Hello/Server Hello/Application Data.
 - Chat screenshot: expanded frame-4 TLS Client Hello (version, cipher list count, extensions).
 - Both images exist in the conversation, but **have not been committed to GitHub**. This report deliberately avoids broken image links.
+- [Verified packet-by-packet evidence and capture hash](../evidence/http-https-analysis/tls-packet-evidence.md) is committed as a reproducible textual evidence record.
 - Offline packet parsing used the supplied `dump.pcapng` and its SHA-256 above; no secrets or private live PCAP were uploaded to GitHub.
 
 ## Recommendations
