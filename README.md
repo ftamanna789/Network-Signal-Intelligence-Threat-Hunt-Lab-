@@ -2,7 +2,7 @@
 
 **Network Traffic Analysis · Threat Hunting · DNS/HTTP Investigation · SOC Portfolio**
 
-> **Status:** Active portfolio project. Two scoped DNS investigations and one historical HTTP training-capture investigation are documented; HTTPS/TLS and advanced threat hunting remain on the roadmap.
+> **Status:** Active portfolio project. Two DNS investigations, one HTTP training-capture investigation, and a scoped TLS handshake investigation are documented; deeper TLS verification and advanced threat hunting remain on the roadmap.
 
 ## Overview
 
@@ -57,7 +57,8 @@ This defensive cybersecurity project investigates network packet captures (PCAPs
 │   ├── methodology.md
 │   ├── investigation-report.md
 │   ├── live-network-dns-investigation.md
-│   └── http-traffic-investigation.md
+│   ├── http-traffic-investigation.md
+│   └── https-tls-handshake-investigation.md
 ├── evidence/
 │   ├── README.md
 │   ├── live-dns/
@@ -76,6 +77,8 @@ Raw packet captures and extracted sensitive data will not be published without c
 
 **Case Study 03 — HTTP Training Capture:** [HTTP Traffic Investigation](docs/http-traffic-investigation.md) documents 43 captured packets, two GET requests, response correlation including TCP reassembly, and security observations. Screenshot evidence is pending addition to `evidence/http-https-analysis/`.
 
+**Case Study 04 — TLS Handshake Training Capture:** [HTTPS/TLS Handshake Investigation](docs/https-tls-handshake-investigation.md) documents Client Hello, Server Hello, key exchange and encrypted application-data observations from screenshots. Certificate and negotiated-cipher verification remain outside the evidence available so far.
+
 ## Roadmap
 
 - [x] Create GitHub repository
@@ -86,7 +89,9 @@ Raw packet captures and extracted sensitive data will not be published without c
 - [x] Complete initial HTTP request/response analysis and publish case report
 - [x] Publish training PCAP case report with screenshots
 - [x] Publish privacy-safe live network DNS case report
-- [ ] Add redacted HTTP screenshots, investigate HTTPS/TLS, and complete broader traffic hunting
+- [x] Embed four HTTP evidence screenshots in the HTTP case report
+- [x] Document initial HTTPS/TLS handshake evidence from the training capture
+- [ ] Verify server-selected cipher, certificate and full TLS streams; complete advanced traffic hunting
 - [ ] Summarise verified findings for the portfolio
 
 ## Ethical Use
