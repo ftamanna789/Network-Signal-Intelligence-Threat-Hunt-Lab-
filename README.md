@@ -2,7 +2,7 @@
 
 **Network Traffic Analysis · Threat Hunting · DNS/HTTP Investigation · SOC Portfolio**
 
-> **Status:** Active portfolio project. Two DNS investigations, one HTTP training-capture investigation, and a scoped TLS handshake investigation are documented; deeper TLS verification and advanced threat hunting remain on the roadmap.
+> **Status:** Active portfolio project. Two DNS investigations, an HTTP training-capture investigation, a complete offline TLS training-capture analysis, and a final SOC case-study summary are documented.
 
 ## Overview
 
@@ -58,7 +58,8 @@ This defensive cybersecurity project investigates network packet captures (PCAPs
 │   ├── investigation-report.md
 │   ├── live-network-dns-investigation.md
 │   ├── http-traffic-investigation.md
-│   └── https-tls-handshake-investigation.md
+│   ├── https-tls-handshake-investigation.md
+│   └── final-soc-investigation-summary.md
 ├── evidence/
 │   ├── README.md
 │   ├── live-dns/
@@ -77,7 +78,9 @@ Raw packet captures and extracted sensitive data will not be published without c
 
 **Case Study 03 — HTTP Training Capture:** [HTTP Traffic Investigation](docs/http-traffic-investigation.md) documents 43 captured packets, two GET requests, response correlation including TCP reassembly, and security observations. Screenshot evidence is pending addition to `evidence/http-https-analysis/`.
 
-**Case Study 04 — TLS Handshake Training Capture:** [HTTPS/TLS Handshake Investigation](docs/https-tls-handshake-investigation.md) documents Client Hello, Server Hello, key exchange and encrypted application-data observations from screenshots. Certificate and negotiated-cipher verification remain outside the evidence available so far.
+**Case Study 04 — TLS Training Capture:** [HTTPS/TLS Investigation](docs/https-tls-handshake-investigation.md) directly analyses 1,095 captured packets across 73 localhost sessions, negotiated ciphers, X.509 certificates and relevant security limitations.
+
+**Final cross-case report:** [SOC Investigation Summary](docs/final-soc-investigation-summary.md) consolidates the four scoped case studies, threat-hunting hypotheses, findings and recommendations.
 
 ## Roadmap
 
@@ -90,8 +93,10 @@ Raw packet captures and extracted sensitive data will not be published without c
 - [x] Publish training PCAP case report with screenshots
 - [x] Publish privacy-safe live network DNS case report
 - [x] Embed four HTTP evidence screenshots in the HTTP case report
-- [x] Document initial HTTPS/TLS handshake evidence from the training capture
-- [ ] Verify server-selected cipher, certificate and full TLS streams; complete advanced traffic hunting
+- [x] Verify TLS negotiated cipher suites and test certificates from the supplied PCAP
+- [x] Complete scoped traffic-pattern threat-hunting assessment and final SOC summary
+- [ ] Optional: upload two TLS screenshots and embed them in the TLS report
+- [ ] Optional: extend to a labelled malicious training capture for attack detection practice
 - [ ] Summarise verified findings for the portfolio
 
 ## Ethical Use
