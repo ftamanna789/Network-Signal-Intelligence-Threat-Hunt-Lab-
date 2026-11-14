@@ -50,9 +50,13 @@ The dataset selects one different cipher in each of 73 test conversations. The f
 **Findings:** historical test certificates and legacy cipher capabilities are present. They are **training examples**, not verified active vulnerabilities of the user's network. No malicious compromise is established from this capture.
 
 ## Evidence
-- Chat screenshot: `tls` filter displaying 511/1,095 matches and Client Hello/Server Hello/Application Data.
-- Chat screenshot: expanded frame-4 TLS Client Hello (version, cipher list count, extensions).
-- Both images exist in the conversation, but **have not been committed to GitHub**. This report deliberately avoids broken image links.
+### 1. TLS traffic overview
+![Wireshark TLS filter displaying 511 of 1095 packets](../evidence/http-https-analysis/01-tls-filter-overview.png)
+
+### 2. TLS 1.2 Client Hello details
+![Expanded frame 4 TLS 1.2 Client Hello with cipher suites and extensions](../evidence/http-https-analysis/02-tls-client-hello.png)
+
+Both screenshots are committed in `evidence/http-https-analysis/`. They document the TLS filter and Client Hello; certificate and selected-cipher findings were verified separately from the uploaded capture.
 - [Verified packet-by-packet evidence and capture hash](../evidence/http-https-analysis/tls-packet-evidence.md) is committed as a reproducible textual evidence record.
 - Offline packet parsing used the supplied `dump.pcapng` and its SHA-256 above; no secrets or private live PCAP were uploaded to GitHub.
 
