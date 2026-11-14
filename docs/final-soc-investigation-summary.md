@@ -24,7 +24,7 @@ This is a defensive educational portfolio project combining two DNS investigatio
 - Use authorised training captures only; do not publish personal live traffic, credentials or raw sensitive packets.
 - `http.cap` has 43 frames; inspect frames 4, 18, 27 and 38.
 - `dump.pcapng` has SHA-256 `cfda7dab293023a3136b2eb3fd8ef375c8e2e060c2eb55c6501e4607cceb494c`; inspect frames 4, 6, 8, 9, 10, 11 and 14, and server-selected suites across the other handshakes.
-- HTTP report includes four screenshots. TLS screenshots are available in the conversation but still require a GitHub image upload if visual evidence is desired.
+- HTTP report includes four screenshots. Two TLS screenshots are committed in `evidence/http-https-analysis/` and embedded in the TLS investigation report.
 - Results are bounded by these specific historic or local datasets. No general production network pentest, continuous monitoring, or comprehensive enterprise threat assessment was performed.
 
 ## SOC analyst workflow demonstrated
